@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Form\Type\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,9 +18,12 @@ final class HomeController extends AbstractController
         $authenticationError = $authenticationUtils->getLastAuthenticationError();
         $username = $authenticationUtils->getLastUsername();
 
+        $form = $this->createForm(LoginType::class);
+
         return $this->render('home/index.html.twig', [
             'authentication_error' => $authenticationError,
             'username' => $username,
+            'form' => $form->createView(),
         ]);
     }
 }
