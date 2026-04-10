@@ -35,28 +35,15 @@ class AgentRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->getEntityManager()->flush();
     }
 
-    //    /**
-    //     * @return Agent[] Returns an array of Agent objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Agent
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findAgentByAgency(string $username, int $agencyIdentifier): ?Agent
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.username = :username')
+            ->join('a.agency', 'ag')
+            ->andWhere('ag.id = :agencyIdentifier')
+            ->setParameter('username', $username)
+            ->setParameter('agencyIdentifier', $agencyIdentifier)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
