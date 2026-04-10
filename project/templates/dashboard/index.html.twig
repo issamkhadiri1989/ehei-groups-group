@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row pt-2 pb-2">
+        <div class="col-12">
+            <div class="d-flex justify-content-center">
+                <a href="" class="btn btn-primary m-3"> <i class="fa-solid fa-clipboard-user"></i> Ouverture de compte </a>
+                <a href="{{ url('app_balance__index') }}" class="btn btn-primary m-3"> <i class="fa-solid fa-scale-unbalanced"></i> Vérification de solde à la demande du client </a>
+                <a href="" class="btn btn-primary m-3"> <i class="fa-solid fa-money-bill-wave"></i> Dépôt d’argent </a>
+                <a href="" class="btn btn-primary m-3"> <i class="fa-solid fa-money-bill-transfer"></i> Virement bancaire </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

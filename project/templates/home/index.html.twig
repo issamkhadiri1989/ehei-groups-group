@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% if authentication_error %}
+        <div class="alert alert-danger">
+            {{ authentication_error.messageKey | trans(authentication_error.messageData, 'security') }}
+        </div>
+    {% endif %}
+    <form action="{{ url('app_home') }}" method="post">
+        <fieldset class="mt-3">
+            <legend>Connexion:</legend>
+            <div class="pt-4 pb-4">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="mb-3">
+                            <label class="form-label" for="username">Identifiant: </label>
+                            <input type="text" id="username" name="_identifier" class="form-control"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="username">Mot de passe: </label>
+                            <input type="password" id="username" name="_password" class="form-control"/>
+                        </div>
+                        <input
+                            name="_csrf_token"
+                            value="{{ csrf_token('connect') }}"
+                            type="hidden"
+                        />
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-sm btn-success">
+                                Login
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

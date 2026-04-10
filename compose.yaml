@@ -1,0 +1,67 @@
+services:
+    franken_php:
+        build:
+            context: ./infra/
+            dockerfile: ./frankenphp/Dockerfile
+        volumes:
+            - ./project:/app
+        expose:
+            - "80"
+        environment:
+            SERVER_NAME: "http://:80"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.__LABEL__.rule=Host(`__LABEL__.ehei.localhost`)"
+            - "traefik.http.routers.__LABEL__.entrypoints=websecure"
+            - "traefik.http.routers.__LABEL__.tls=true"
+            - "traefik.http.services.__LABEL__.loadbalancer.server.port=80"
+            - "traefik.http.services.__LABEL__.loadbalancer.server.scheme=http"
+            - "traefik.docker.network=proxy-net"
+
+        networks:
+            - internal_network
+            - proxy-net
+
+    database:
+        image: mysql
+        platform: linux/x86_64
+        command: --innodb-use-native-aio=${INNODB_USE_NATIVE_AIO:-1} --sql_mode=${SQL_MODE:-"ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"}
+        environment:
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_DATABASE: app
+        volumes:
+            - __LABEL___mysql:/var/lib/mysql:delegated
+        networks:
+            - internal_network
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:5
+        environment:
+            PMA_HOST: database
+        depends_on:
+            - database
+        networks:
+            - internal_network
+            - proxy-net
+        volumes:
+            - __LABEL___db_admin_data:/var/www/html
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.__LABEL__-pma.rule=Host(`pma.__LABEL__.ehei.localhost`)"
+            - "traefik.http.routers.__LABEL__-pma.entrypoints=websecure"
+            - "traefik.http.routers.__LABEL__-pma.tls=true"
+            - "traefik.http.services.__LABEL__-pma.loadbalancer.server.port=80"
+            - "traefik.docker.network=proxy-net"
+
+volumes:
+    __LABEL___db_admin_data:
+        name: __LABEL___db_admin_data
+    __LABEL___mysql:
+        name: __LABEL___mysql
+
+networks:
+    internal_network:
+        name: internal_network___LABEL__
+    proxy-net:
+        name: proxy-net
+        external: true

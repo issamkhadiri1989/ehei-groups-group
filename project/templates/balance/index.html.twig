@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BalanceController!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">PRENOM</th>
+                    <th scope="col">NOM</th>
+                    <th scope="col">PHONE</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for customer in app.user.agency.customers %}
+                    <tr>
+                        <td>
+                            {{ customer.id }}
+                        </td>
+                        <td>
+                            {{ customer.firstName | upper }}
+                        </td>
+                        <td>
+                            {{ customer.lastName | upper }}
+                        </td>
+                        <td>
+                            {{ customer.phone | upper }}
+                        </td>
+                        <td>
+                            <a href="{{ url('app_customer__show', {id: customer.id}) }}">
+                        <span class="badge text-bg-primary">
+                        <i class="fa-regular fa-eye"></i> Voir le compte
+                    </span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
