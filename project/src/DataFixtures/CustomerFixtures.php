@@ -11,7 +11,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class CustomerFixtures extends Fixture implements DependentFixtureInterface
 {
-    private const int CUSTOMERS = 100;
+    private const int CUSTOMERS = 10;
 
     public function getDependencies(): array
     {
