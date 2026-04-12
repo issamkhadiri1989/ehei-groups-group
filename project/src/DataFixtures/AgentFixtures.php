@@ -11,7 +11,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class AgentFixtures extends Fixture implements DependentFixtureInterface
 {
-    private const int AGENTS = 10;
+    private const int AGENTS = 3;
 
     public function load(ObjectManager $manager): void
     {
