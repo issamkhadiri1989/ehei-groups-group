@@ -42,8 +42,8 @@
         </div>
     </nav>
     {% if app.user %}
-        <div class="alert alert-info pt-2 pb-2">
-            <p>Connecté en tant que {{ app.user.firstName }} {{ app.user.lastName }} | <a href="{{ url('_logout_main') }}">Fermer la session</a> </p>
+        <div class="alert alert-light pt-2 pb-2">
+            <p>Connecté en tant que {{ app.user.firstName }} {{ app.user.lastName }} | <a href="{{ url('_logout_main') }}"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Fermer la session</a> </p>
             <p><strong>Username: </strong>{{ app.user.userIdentifier }}</p>
             <p><strong>Agence: </strong>{{ app.user.agency.name }} ({{ app.user.agency.code }})</p>
         </div>

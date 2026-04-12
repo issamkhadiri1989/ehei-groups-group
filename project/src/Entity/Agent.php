@@ -43,6 +43,9 @@ class Agent implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Agency $agency = null;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $pinCode = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -150,6 +153,18 @@ class Agent implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAgency(?Agency $agency): static
     {
         $this->agency = $agency;
+
+        return $this;
+    }
+
+    public function getPinCode(): ?string
+    {
+        return $this->pinCode;
+    }
+
+    public function setPinCode(?string $pinCode): static
+    {
+        $this->pinCode = $pinCode;
 
         return $this;
     }

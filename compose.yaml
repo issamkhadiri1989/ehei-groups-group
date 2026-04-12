@@ -11,11 +11,11 @@ services:
             SERVER_NAME: "http://:80"
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.__LABEL__.rule=Host(`__LABEL__.ehei.localhost`)"
-            - "traefik.http.routers.__LABEL__.entrypoints=websecure"
-            - "traefik.http.routers.__LABEL__.tls=true"
-            - "traefik.http.services.__LABEL__.loadbalancer.server.port=80"
-            - "traefik.http.services.__LABEL__.loadbalancer.server.scheme=http"
+            - "traefik.http.routers.group1.rule=Host(`group1.ehei.localhost`)"
+            - "traefik.http.routers.group1.entrypoints=websecure"
+            - "traefik.http.routers.group1.tls=true"
+            - "traefik.http.services.group1.loadbalancer.server.port=80"
+            - "traefik.http.services.group1.loadbalancer.server.scheme=http"
             - "traefik.docker.network=proxy-net"
 
         networks:
@@ -30,7 +30,7 @@ services:
             MYSQL_ROOT_PASSWORD: secret
             MYSQL_DATABASE: app
         volumes:
-            - __LABEL___mysql:/var/lib/mysql:delegated
+            - group1_mysql:/var/lib/mysql:delegated
         networks:
             - internal_network
 
@@ -44,24 +44,24 @@ services:
             - internal_network
             - proxy-net
         volumes:
-            - __LABEL___db_admin_data:/var/www/html
+            - group1_db_admin_data:/var/www/html
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.__LABEL__-pma.rule=Host(`pma.__LABEL__.ehei.localhost`)"
-            - "traefik.http.routers.__LABEL__-pma.entrypoints=websecure"
-            - "traefik.http.routers.__LABEL__-pma.tls=true"
-            - "traefik.http.services.__LABEL__-pma.loadbalancer.server.port=80"
+            - "traefik.http.routers.group1-pma.rule=Host(`pma.group1.ehei.localhost`)"
+            - "traefik.http.routers.group1-pma.entrypoints=websecure"
+            - "traefik.http.routers.group1-pma.tls=true"
+            - "traefik.http.services.group1-pma.loadbalancer.server.port=80"
             - "traefik.docker.network=proxy-net"
 
 volumes:
-    __LABEL___db_admin_data:
-        name: __LABEL___db_admin_data
-    __LABEL___mysql:
-        name: __LABEL___mysql
+    group1_db_admin_data:
+        name: group1_db_admin_data
+    group1_mysql:
+        name: group1_mysql
 
 networks:
     internal_network:
-        name: internal_network___LABEL__
+        name: internal_network_group1
     proxy-net:
         name: proxy-net
         external: true
