@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class AgencyFixtures extends Fixture
 {
-    private const int AGENCIES = 30;
+    private const int AGENCIES = 2;
 
     public function load(ObjectManager $manager): void
     {
